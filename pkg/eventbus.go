@@ -1,0 +1,10 @@
+package gobus
+
+import "gobus/internal/eventbus"
+
+func Publish(t eventbus.Topic, event interface{}) error {
+	return instance().Publish(t, event)
+}
+func Subscribe(t eventbus.Topic) eventbus.Subscriber {
+	return instance().Subscribe(t)
+}
