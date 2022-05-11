@@ -4,19 +4,19 @@ import (
 	"fmt"
 	gobus "gobus/pkg"
 	"log"
+	"time"
 )
 
 func main() {
-	subscriber := gobus.Subscribe("cachorro")
-	subscriber2 := gobus.Subscribe("cachorro")
+	subscriber := gobus.Subscribe("dog")
 	go func() {
-		err := gobus.Publish("cachorro", "cachorroloco")
-		if err != nil {
-			log.Println(err)
+		for msg := range subscriber.Channel() {
+			fmt.Println(msg)
 		}
 	}()
-	msg := <-subscriber.Channel()
-	fmt.Println(msg)
-	msg = <-subscriber2.Channel()
-	fmt.Println(msg)
+	err := gobus.Publish("dog", "german shepherd")
+	if err != nil {
+		log.Println(err)
+	}
+	time.Sleep(time.Minute)
 }
