@@ -1,19 +1,24 @@
 package eventbus
 
 type Subscriber interface {
-	Channel() <-chan interface{}
+	Channel() <-chan any
+	Close()
 }
 
 type subscriber struct {
-	channel chan interface{}
+	channel chan any
 }
 
-func NewSubscriber(channel chan interface{}) Subscriber {
+func NewSubscriber(channel chan any) Subscriber {
 	return &subscriber{
 		channel: channel,
 	}
 }
 
-func (s *subscriber) Channel() <-chan interface{} {
+func (s *subscriber) Channel() <-chan any {
 	return s.channel
+}
+
+func (s *subscriber) Close() {
+	close(s.channel)
 }
