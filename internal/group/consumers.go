@@ -1,6 +1,9 @@
 package group
 
-import "sync"
+import (
+	"fmt"
+	"sync"
+)
 
 type thread chan any
 
@@ -24,11 +27,6 @@ func NewConsumer(t thread) Consumer {
 		thread: t,
 	}
 
-	go func() {
-		<-c.done
-		close(c.thread)
-	}()
-
 	return &c
 }
 
@@ -38,6 +36,8 @@ func (c *consumer) Thread() thread {
 
 func (c *consumer) Close() {
 	c.once.Do(func() {
+		fmt.Println("vai que é tua")
+		close(c.thread)
 		close(c.done)
 	})
 }

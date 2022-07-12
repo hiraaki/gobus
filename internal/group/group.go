@@ -39,13 +39,14 @@ func NewConsumerGroup(t thread) ConsumerGroup {
 func (c *consumerGroup) runner() {
 	for e := range c.t {
 		for k, consumer := range c.consumers {
-			_, ok := <-consumer.Done()
-			if !ok {
-				c.remove(k)
-				continue
+			select {
+			case _, ok := <-consumer.Done():
+				if !ok {
+					c.remove(k)
+				}
+			default:
+				consumer.Thread() <- e
 			}
-
-			consumer.Thread() <- e
 		}
 	}
 	c.shutdown()
@@ -66,6 +67,11 @@ func (c *consumerGroup) Add(consumer Consumer) {
 	defer c.mu.Unlock()
 
 	c.consumers[c.size] = consumer
+
+	go func(k key) {
+		<-consumer.Done()
+		c.remove(k)
+	}(c.size)
 
 	c.size++
 }

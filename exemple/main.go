@@ -60,12 +60,12 @@ func Conssuergroups() {
 			return
 		}
 
-		fmt.Println("toma: ", event)
+		fmt.Println("chegou o disco voador: ", event)
 
 		consumer.Close()
 	}()
 
-	<-time.After(time.Second)
+	<-time.After(time.Second * 5)
 	fmt.Println(cg.Size())
 }
 
