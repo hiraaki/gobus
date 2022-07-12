@@ -56,11 +56,11 @@ func Conssuergroups() {
 
 		event, ok := <-consumer.Thread()
 		if !ok {
-			fmt.Println("tá fechado zé")
+			fmt.Println("clesed thread")
 			return
 		}
 
-		fmt.Println("chegou o disco voador: ", event)
+		fmt.Println("thread response: ", event)
 
 		consumer.Close()
 	}()
