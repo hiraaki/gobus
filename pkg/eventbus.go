@@ -10,6 +10,6 @@ func Subscribe(t eventbus.Topic) (eventbus.Subscriber, error) {
 	return instance().Subscribe(t)
 }
 
-func CreateTopic(t eventbus.Topic) error {
+func NewTopic(t eventbus.Topic) error {
 	return instance().CreateTopic(t)
 }

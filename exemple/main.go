@@ -9,7 +9,7 @@ import (
 )
 
 func Dogs() {
-	err := gobus.CreateTopic("dog")
+	err := gobus.NewTopic("dog")
 	if err != nil {
 		panic(err)
 	}
