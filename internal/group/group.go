@@ -5,13 +5,15 @@ import (
 	"sync"
 )
 
+type thread chan any
+
 type key uint
 
 var ErrOutOfRange = errors.New("index out of range")
 
 type ConsumerGroup interface {
 	Consumer(k key) (Consumer, error)
-	Add(c Consumer)
+	AddConsumer(c Consumer)
 	Size() uint
 }
 
@@ -62,7 +64,7 @@ func (c *consumerGroup) Consumer(k key) (Consumer, error) {
 	return c.consumers[k], nil
 }
 
-func (c *consumerGroup) Add(consumer Consumer) {
+func (c *consumerGroup) AddConsumer(consumer Consumer) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 

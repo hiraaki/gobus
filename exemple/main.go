@@ -40,7 +40,7 @@ func Conssuergroups() {
 
 	cg := group.NewConsumerGroup(c)
 
-	cg.Add(consumer)
+	cg.AddConsumer(consumer)
 
 	fmt.Println(cg.Size())
 

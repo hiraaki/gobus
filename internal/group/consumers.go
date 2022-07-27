@@ -4,8 +4,6 @@ import (
 	"sync"
 )
 
-type thread chan any
-
 type Consumer interface {
 	Thread() thread
 	Close()
@@ -20,6 +18,7 @@ type consumer struct {
 
 var _ Consumer = (*consumer)(nil)
 
+// thread = chan any
 func NewConsumer(t thread) Consumer {
 	c := consumer{
 		done:   make(chan struct{}),
