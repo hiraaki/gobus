@@ -19,7 +19,7 @@ type ConsumerGroup interface {
 
 type consumerGroup struct {
 	mu        sync.Mutex
-	size      key
+	size      uint
 	t         thread
 	consumers map[key]Consumer
 }
@@ -46,9 +46,9 @@ func (c *consumerGroup) runner() {
 				if !ok {
 					c.remove(k)
 				}
-			default:
-				consumer.Thread() <- e
 			}
+
+			consumer.Thread() <- e
 		}
 	}
 	c.shutdown()
